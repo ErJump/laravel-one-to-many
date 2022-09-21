@@ -10,7 +10,7 @@
             <div class="col-8">
                 <h2 class="mb-3">{{$post->title}}</h2>
                 <p>{{$post->post_content}}</p>
-                <p><strong>Author:</strong> {{$post->author}}</p>
+                <p><strong>Author:</strong> {{$post->user->name}}</p>
                 <p><strong>Post Date:</strong> {{$post->post_date}}</p>
             </div>
             <div class="col-12 text-center">
