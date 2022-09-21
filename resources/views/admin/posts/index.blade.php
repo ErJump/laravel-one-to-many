@@ -16,6 +16,7 @@
                     <th scope="col">Author</th>
                     <th scope="col" colspan="2">Title</th>
                     <th scope="col">Post Date</th>
+                    <th scope="col">Category</th>
                     <th scope="col"><strong>Edit</strong></th>
                     <th scope="col"><strong>Delete</strong></th>
                 </tr>
@@ -27,6 +28,9 @@
                         <td>{{$post->user->name}}</td>
                         <td colspan="2">{{$post->title}}</td>
                         <td>{{$post->post_date}}</td>
+                        <td>
+                            <span class="badge badge-secondary" style="background-color: {{$post->category->color}}">{{$post->category->name}}</span>
+                        </td>
                         <td>
                             <a href="{{route('admin.posts.edit', $post->slug)}}">
                                 <button type="button" class="btn btn-secondary">Edit</button>
