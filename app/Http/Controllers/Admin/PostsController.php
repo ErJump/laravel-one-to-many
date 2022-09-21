@@ -24,7 +24,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Auth::user()->posts;
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -50,7 +50,7 @@ class PostsController extends Controller
         $data = $request->validate($this->validationArray);
         $post = new Post();
         $lastPostId = Post::orderBy('id', 'desc')->first();
-        $data['author'] = Auth::user()->name;
+        $data['user_id'] = Auth::user()->id;
         $data['post_date'] = new DateTime();
         $data['slug'] = Str::slug($data['title'], '-'). '-' . ($lastPostId->id + 1);
         $post->create($data);
@@ -92,7 +92,7 @@ class PostsController extends Controller
     {
         $data = $request->validate($this->validationArray);
         $post = Post::where('slug', $slug)->firstOrFail();
-        $data['author'] = $post->author;
+        $data['user_id'] = $post->user->id;
         $data['post_date'] = $post->post_date;
         $data['slug'] = Str::slug($data['title'], '-'). '-' . $post->id;
         $post->update($data);
