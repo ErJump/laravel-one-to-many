@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
 use DateTime;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class PostsController extends Controller
         'title' => 'required|string|max:255',
         'post_content' => 'required|string',
         'post_image' => 'required|active_url',
+        'category_id' => 'required|integer',
     ];
 
     /**
@@ -36,7 +38,8 @@ class PostsController extends Controller
     public function create()
     {
         $post = new Post();
-        return view('admin.posts.create', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.create', compact('post', 'categories'),);
     }
 
     /**
@@ -53,7 +56,8 @@ class PostsController extends Controller
         $data['user_id'] = Auth::user()->id;
         $data['post_date'] = new DateTime();
         $data['slug'] = Str::slug($data['title'], '-'). '-' . ($lastPostId->id + 1);
-        $post->create($data);
+        $post->fill($data);
+        $post->save();
         return redirect()->route('admin.posts.index')->with('result-message', '"'.$data['title'].'" successfully added');
     }
 
@@ -78,7 +82,8 @@ class PostsController extends Controller
     public function edit($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**

@@ -31,6 +31,16 @@
         </div>
         @enderror
     </div>
+    <div class="form-group mb-2">
+        <label for="category_id">Category</label>
+        <select name="category_id" id="category_id" class="form-control">
+            @foreach ($categories as $category)
+            <option value="{{$category->id}}" {{old('category_id', $post->category_id) == $category->id ? 'selected' : ''}}>
+                {{$category->name}}
+            </option>
+            @endforeach
+        </select>
+    </div>
     <div class="w-100 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
